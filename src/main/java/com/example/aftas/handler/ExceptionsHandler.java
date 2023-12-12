@@ -19,6 +19,15 @@ public class ExceptionsHandler {
         Map<String, String> errors = new HashMap<>();
         List<FieldError> fieldErrors = exception.getBindingResult().getFieldErrors();
         fieldErrors.stream().map(error -> errors.put(error.getField(), error.getDefaultMessage())).collect(Collectors.toList());
-        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+        //return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+        return ResponseEntity.badRequest().body(errors);
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity illegalArgument(IllegalArgumentException exception){
+        Map<String, String> error = new HashMap<>();
+        error.put("error", exception.getMessage());
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+        //return ResponseEntity.badRequest().body(errors);
     }
 }

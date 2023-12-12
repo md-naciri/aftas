@@ -16,8 +16,6 @@ import lombok.*;
 @Builder
 public class Competition {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
     private String code;
     private LocalDate date;
     private LocalTime startTime;
