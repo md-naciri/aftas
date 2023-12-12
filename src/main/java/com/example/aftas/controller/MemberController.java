@@ -3,6 +3,7 @@ package com.example.aftas.controller;
 import com.example.aftas.VM.MemberRequestVM;
 import com.example.aftas.VM.MemberResponseVM;
 import com.example.aftas.domain.Member;
+import com.example.aftas.handler.ResponseHandler;
 import com.example.aftas.service.MemberService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -19,13 +20,20 @@ public class MemberController {
     private final MemberService memberService;
     @PostMapping
     public ResponseEntity<?> createMember (@RequestBody @Valid MemberRequestVM memberRequestVM){
-        Member member = memberRequestVM.toMember();
-        return ResponseEntity.ok().body(memberService.createMember(member));
+        Member member = memberService.createMember(memberRequestVM.toMember());
+        return ResponseHandler.created(
+                MemberResponseVM.fromMember(member),"Member created successfully"
+        );
+        //return ResponseEntity.ok().body(memberService.createMember(member));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getMember(@PathVariable("id") Long id){
         MemberResponseVM memberResponseVM = MemberResponseVM.fromMember(memberService.getMember(id));
-        return ResponseEntity.ok().body(memberResponseVM);
+
+        return ResponseHandler.ok(
+                memberResponseVM, "Member Found Successfully"
+        );
+        //return ResponseEntity.ok().body(memberResponseVM);
     }
 }

@@ -8,10 +8,10 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class ResponseHandler {
-    private int statusCode;
-    private String timeStamp;
-    private String message;
-    private Object data;
+    public int statusCode;
+    public String timeStamp;
+    public String message;
+    public Object data;
 
     public ResponseHandler(int statusCode, String message, Object data){
         this.statusCode = statusCode;
@@ -26,16 +26,16 @@ public class ResponseHandler {
         this.message = message;
     }
 
-    public static ResponseEntity<?> ok(Object data, String message){
+    public static ResponseEntity ok(Object data, String message){
         return new ResponseEntity<>(new ResponseHandler(HttpStatus.OK.value(), message, data), HttpStatus.OK);
     }
-    public static ResponseEntity<?> created(Object data, String message){
+    public static ResponseEntity created(Object data, String message){
         return new ResponseEntity<>(new ResponseHandler(HttpStatus.CREATED.value(), message, data), HttpStatus.CREATED);
     }
-    public static ResponseEntity<?> notFound(String message){
+    public static ResponseEntity notFound(String message){
         return new ResponseEntity<>(new ResponseHandler(HttpStatus.NOT_FOUND.value(), message), HttpStatus.NOT_FOUND);
     }
-    public static ResponseEntity<?> badRequest(String message){
+    public static ResponseEntity badRequest(String message){
         return new ResponseEntity<>(new ResponseHandler(HttpStatus.BAD_REQUEST.value(), message), HttpStatus.BAD_REQUEST);
     }
 }

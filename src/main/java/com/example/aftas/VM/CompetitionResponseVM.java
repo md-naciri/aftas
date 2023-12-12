@@ -1,4 +1,31 @@
 package com.example.aftas.VM;
 
-public record CompetitionResponseVM() {
+import com.example.aftas.domain.Competition;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
+
+public record CompetitionResponseVM(
+        String code,
+        LocalDate date,
+        LocalTime Start_Time,
+        LocalTime End_Time,
+        Integer Number_Of_Participants,
+        String location,
+        Double amount
+) {
+    public static CompetitionResponseVM fromCompetition(Competition competition){
+        return new CompetitionResponseVM(
+                competition.getCode(),
+                competition.getDate(),
+                competition.getStartTime(),
+                competition.getEndTime(),
+                competition.getNumberOfParticipants(),
+                competition.getLocation(),
+                competition.getAmount()
+        );
+    }
 }
