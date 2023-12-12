@@ -1,5 +1,4 @@
 package com.example.aftas.domain;
-
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,7 +11,7 @@ import lombok.Builder;
 public class Ranking {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Integer ranks;
+    private Integer raank;
     private Integer scores;
     @ManyToOne
     private Member member;
