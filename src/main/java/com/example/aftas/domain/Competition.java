@@ -19,7 +19,7 @@ import lombok.*;
 @Builder
 public class Competition {
     @Id
-    @NotBlank(message = "Code cannot be blank")
+    //@NotBlank(message = "Code cannot be blank")
     private String code;
 
     @NotNull(message = "Date cannot be null")

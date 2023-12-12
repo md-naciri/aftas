@@ -22,7 +22,6 @@ public class MemberController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getMember(@PathVariable("id") Long id){
-        long test = id;
         return ResponseEntity.ok().body(memberService.getMember(id));
     }
 }
