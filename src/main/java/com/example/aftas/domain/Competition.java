@@ -1,5 +1,6 @@
 package com.example.aftas.domain;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -33,8 +34,12 @@ public class Competition {
 
     private Double amount;
 
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @OneToMany(mappedBy = "competition", fetch = FetchType.LAZY)
     private List<Hunting> listOfHunting;
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @OneToMany(mappedBy = "competition", fetch = FetchType.LAZY)
     private List<Ranking> listOfRanking;
 }

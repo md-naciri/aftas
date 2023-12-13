@@ -8,10 +8,10 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
-@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Data
 @Embeddable
 public class RankId implements Serializable {
     Long member_number;

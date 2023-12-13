@@ -1,5 +1,6 @@
 package com.example.aftas.domain;
 import com.example.aftas.domain.embeddable.RankId;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

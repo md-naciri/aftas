@@ -1,5 +1,6 @@
 package com.example.aftas.VM;
 
+import com.example.aftas.domain.Competition;
 import com.example.aftas.domain.Member;
 import com.example.aftas.domain.Ranking;
 import com.example.aftas.enums.IdentityDocumentType;

@@ -3,6 +3,7 @@ package com.example.aftas.service.Implementation;
 import com.example.aftas.domain.Competition;
 import com.example.aftas.domain.Member;
 import com.example.aftas.domain.Ranking;
+import com.example.aftas.domain.embeddable.RankId;
 import com.example.aftas.repository.RankingRepository;
 import com.example.aftas.service.CompetitionService;
 import com.example.aftas.service.MemberService;
@@ -20,14 +21,30 @@ public class RankingServiceImp implements RankingService {
     public Ranking registerMemberForCompetition(Long number, String code) {
         Member member = memberService.getMember(number);
         Competition competition = competitionService.getCompetition(code);
-        return rankingRepository.save(Ranking.builder().member(member).competition(competition).raank(0).score(0).build());
+        return rankingRepository.save(
+                Ranking.builder()
+                        .id(RankId.builder()
+                                .member_number(member.getNumber())
+                                .competition_code(competition.getCode())
+                                .build()
+                        )
+                        .member(member)
+                        .competition(competition)
+                        .raank(0)
+                        .score(0)
+                        .build()
+        );
     }
 
     @Override
-    public Ranking getCompetition(Long number, String code) {
+    public Ranking getRanking(Long number, String code) {
         Member member = memberService.getMember(number);
         Competition competition = competitionService.getCompetition(code);
-        return rankingRepository.findRankingByMemberAndCompetition(member, competition);
+        Ranking rankingByMemberAndCompetition = rankingRepository.findRankingByMemberAndCompetition(member, competition);
+        if (rankingByMemberAndCompetition == null){
+            throw new IllegalArgumentException("This Member is not registered for this competition");
+        }
+        return rankingByMemberAndCompetition;
     }
 
 
