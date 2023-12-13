@@ -7,7 +7,10 @@ import com.example.aftas.service.CompetitionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
@@ -19,7 +22,7 @@ public class CompetitionServiceImp implements CompetitionService {
     public Competition createCompetition(Competition competition) {
         Optional<Competition> competitionByDate = competitionRepository.findCompetitionByDate(competition.getDate());
         if (competitionByDate.isPresent()){
-            throw new OperationException("You can't create two competitions with the same date, only one competition a day");
+            throw new OperationException("You can't create more than one competitions with the same date, only one competition a day");
         }
         competition.setCode(generateCode(competition.getLocation(), competition.getDate()));
         return competitionRepository.save(competition);
@@ -39,6 +42,5 @@ public class CompetitionServiceImp implements CompetitionService {
         }
         return competition.get();
     }
-
 
 }
