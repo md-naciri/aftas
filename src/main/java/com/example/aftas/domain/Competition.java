@@ -19,26 +19,18 @@ import lombok.*;
 @Builder
 public class Competition {
     @Id
-    //@NotBlank(message = "Code cannot be blank")
     private String code;
 
-    @NotNull(message = "Date cannot be null")
     private LocalDate date;
 
-    @NotNull(message = "Start time cannot be null")
     private LocalTime startTime;
 
-    @NotNull(message = "End time cannot be null")
     private LocalTime endTime;
 
-    @NotNull(message = "Number of participants cannot be null")
     private Integer numberOfParticipants;
 
-    @NotBlank(message = "Location cannot be blank")
     private String location;
 
-    @NotNull(message = "Amount cannot be null")
-    @Positive(message = "Amount must be a positive number")
     private Double amount;
 
     @OneToMany(mappedBy = "competition", fetch = FetchType.LAZY)

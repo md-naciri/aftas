@@ -21,24 +21,16 @@ public class Member {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long number;
 
-    //@NotEmpty(message = "First name cannot be empty")
     private String firstName;
 
-    //@NotEmpty(message = "Last name cannot be empty")
     private String lastName;
 
-    //@NotNull(message = "Accession date cannot be null")
-    //@DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate accessionDate;
 
-    //@NotEmpty(message = "Nationality cannot be empty")
     private String nationality;
 
-    //@NotNull(message = "Identity document type cannot be null")
-    //@Enumerated(EnumType.STRING)
     private IdentityDocumentType identityDocument;
 
-    //@NotEmpty(message = "Identity Number cannot be empty")
     private String identityNumber;
 
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
