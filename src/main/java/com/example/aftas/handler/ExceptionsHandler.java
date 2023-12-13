@@ -30,4 +30,11 @@ public class ExceptionsHandler {
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
         //return ResponseEntity.badRequest().body(errors);
     }
+
+    @ExceptionHandler(OperationException.class)
+    public ResponseEntity operationException(OperationException exception){
+        Map<String, String> error = new HashMap<>();
+        error.put("error", exception.getMessage());
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
 }
