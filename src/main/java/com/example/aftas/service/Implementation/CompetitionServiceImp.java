@@ -1,6 +1,7 @@
 package com.example.aftas.service.Implementation;
 
 import com.example.aftas.domain.Competition;
+import com.example.aftas.handler.OperationException;
 import com.example.aftas.repository.CompetitionRepository;
 import com.example.aftas.service.CompetitionService;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +17,10 @@ public class CompetitionServiceImp implements CompetitionService {
     private final CompetitionRepository competitionRepository;
     @Override
     public Competition createCompetition(Competition competition) {
+        Optional<Competition> competitionByDate = competitionRepository.findCompetitionByDate(competition.getDate());
+        if (competitionByDate.isPresent()){
+            throw new OperationException("You can't create two competitions with the same date, only one competition a day");
+        }
         competition.setCode(generateCode(competition.getLocation(), competition.getDate()));
         return competitionRepository.save(competition);
     }
@@ -34,4 +39,6 @@ public class CompetitionServiceImp implements CompetitionService {
         }
         return competition.get();
     }
+
+
 }

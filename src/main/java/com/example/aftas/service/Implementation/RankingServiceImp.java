@@ -4,6 +4,7 @@ import com.example.aftas.domain.Competition;
 import com.example.aftas.domain.Member;
 import com.example.aftas.domain.Ranking;
 import com.example.aftas.domain.embeddable.RankId;
+import com.example.aftas.handler.OperationException;
 import com.example.aftas.repository.RankingRepository;
 import com.example.aftas.service.CompetitionService;
 import com.example.aftas.service.MemberService;
@@ -23,7 +24,7 @@ public class RankingServiceImp implements RankingService {
         Competition competition = competitionService.getCompetition(code);
         Ranking rankingByMemberAndCompetition = rankingRepository.findRankingByMemberAndCompetition(member, competition);
         if(rankingByMemberAndCompetition != null){
-            throw
+            throw new OperationException("This member is already registered to this competition");
         }
         return rankingRepository.save(
                 Ranking.builder()
