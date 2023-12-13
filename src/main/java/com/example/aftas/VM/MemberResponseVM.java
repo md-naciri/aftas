@@ -7,6 +7,7 @@ import com.example.aftas.enums.IdentityDocumentType;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public record MemberResponseVM(
         String Fist_Name,
@@ -14,8 +15,8 @@ public record MemberResponseVM(
         LocalDate Accession_Date,
         String Nationality,
         IdentityDocumentType Identity_Document_Type,
-        String Identity_Number,
-        List<Ranking> List_Of_Ranking
+        String Identity_Number
+        //List<Ranking> List_Of_Ranking
 ) {
     public static MemberResponseVM fromMember(Member member){
         return new MemberResponseVM(
@@ -24,8 +25,21 @@ public record MemberResponseVM(
                 member.getAccessionDate(),
                 member.getNationality(),
                 member.getIdentityDocument(),
-                member.getIdentityNumber(),
-                member.getListOfRanking()
+                member.getIdentityNumber()
+                //member.getListOfRanking()
         );
+    }
+    public static List<MemberResponseVM> fromListOfMembers(List<Member> members){
+        return members.stream().map(
+                member -> new MemberResponseVM(
+                        member.getFirstName(),
+                        member.getLastName(),
+                        member.getAccessionDate(),
+                        member.getNationality(),
+                        member.getIdentityDocument(),
+                        member.getIdentityNumber()
+                        //member.getListOfRanking()
+                )
+        ).collect(Collectors.toList());
     }
 }

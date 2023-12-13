@@ -13,6 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/aftas/api/v1/member")
 @RequiredArgsConstructor
@@ -35,5 +37,14 @@ public class MemberController {
                 memberResponseVM, "Member Found Successfully"
         );
         //return ResponseEntity.ok().body(memberResponseVM);
+    }
+
+    @GetMapping("/search/{search}")
+    public ResponseEntity<?> searchForMembers(@PathVariable("search") String search){
+        List<Member> listOfMembers = memberService.findByNumberOrFirstNameOrLastName(search);
+        List<MemberResponseVM> membersResponse = MemberResponseVM.fromListOfMembers(listOfMembers);
+        return ResponseHandler.ok(
+                membersResponse, "This is the result of your search"
+        );
     }
 }
