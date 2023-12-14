@@ -31,7 +31,7 @@ public class LevelServiceImp implements LevelService {
     public Level getLevel(Integer levelCode) {
         Optional<Level> level = levelRepository.getLevelByCode(levelCode);
         if (level.isEmpty()){
-            throw new IllegalArgumentException("Member doesn't exist");
+            throw new IllegalArgumentException("Level doesn't exist");
         }
         return level.get();
     }

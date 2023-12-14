@@ -21,10 +21,8 @@ public class LevelController {
     private final LevelService levelService;
     @PostMapping()
     public ResponseEntity<?> createLevel (@RequestBody @Valid Level level){
-        //Member member = memberService.createMember(memberRequestVM.toMember());
         levelService.createLevel(level);
         return ResponseHandler.created(
-                //MemberResponseVM.fromMember(member),"Level created successfully"
                 level,"Level created successfully"
         );
     }
