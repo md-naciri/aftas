@@ -36,7 +36,7 @@ public class RankingServiceImp implements RankingService {
             throw new OperationException("This member is already registered to this competition");
         }
         if(dateTimeComparison(competition.getDate(),competition.getStartTime())){
-            throw new OperationException("If there's less than 24 hours left before the competition starts, you can't register");
+            throw new OperationException("You cannot register if there are less than 24 hours before the competition starts or if the competition has ended");
         }
         return rankingRepository.save(
                 Ranking.builder()
@@ -106,10 +106,9 @@ public class RankingServiceImp implements RankingService {
     public boolean dateTimeComparison(LocalDate date, LocalTime time){
         LocalDateTime currentDateTime = LocalDateTime.now();
         LocalDateTime competitionDateTime = LocalDateTime.of(date, time);
+        if (competitionDateTime.isBefore(currentDateTime)) return false;
         Duration duration = Duration.between(currentDateTime, competitionDateTime);
         return Math.abs(duration.getSeconds()) < 86400;
     }
-
-
 
 }

@@ -10,7 +10,7 @@ import java.util.List;
 
 @Repository
 public interface MemberRepository extends JpaRepository<Member, Long> {
-    @Query("SELECT m FROM Member m WHERE m.number = :number") // LIKE %:number%"
+    @Query("SELECT m FROM Member m WHERE m.number = :number")
     List<Member> findByNumber(@Param("number") Long number);
     @Query("SELECT m FROM Member m WHERE m.firstName LIKE %:firstName% OR m.lastName LIKE %:lastName%")
     List<Member> findByFirstNameOrLastName(@Param("firstName") String firstName, @Param("lastName") String lastName);
