@@ -24,9 +24,9 @@ public class RankingServiceImp implements RankingService {
     private final MemberService memberService;
     private final CompetitionService competitionService;
     @Override
-    public Ranking registerMemberForCompetition(Long number, String code) {
-        Member member = memberService.getMember(number);
-        Competition competition = competitionService.getCompetition(code);
+    public Ranking registerMemberForCompetition(Long memberNumber, String competitionCode) {
+        Member member = memberService.getMember(memberNumber);
+        Competition competition = competitionService.getCompetition(competitionCode);
         Ranking rankingByMemberAndCompetition = rankingRepository.findRankingByMemberAndCompetition(member, competition);
         if(rankingByMemberAndCompetition != null){
             throw new OperationException("This member is already registered to this competition");
@@ -50,9 +50,9 @@ public class RankingServiceImp implements RankingService {
     }
 
     @Override
-    public Ranking getRanking(Long number, String code) {
-        Member member = memberService.getMember(number);
-        Competition competition = competitionService.getCompetition(code);
+    public Ranking getRanking(Long memberNumber, String competitionCode) {
+        Member member = memberService.getMember(memberNumber);
+        Competition competition = competitionService.getCompetition(competitionCode);
         Ranking rankingByMemberAndCompetition = rankingRepository.findRankingByMemberAndCompetition(member, competition);
         if (rankingByMemberAndCompetition == null){
             throw new IllegalArgumentException("This Member is not registered for this competition");
