@@ -43,4 +43,9 @@ public class CompetitionServiceImp implements CompetitionService {
         return competition.get();
     }
 
+    @Override
+    public Competition updateCompetition(Competition competition) {
+        return competitionRepository.save(competition);
+    }
+
 }

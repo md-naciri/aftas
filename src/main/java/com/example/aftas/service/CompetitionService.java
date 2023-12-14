@@ -8,4 +8,5 @@ import java.time.LocalDate;
 public interface CompetitionService {
     Competition createCompetition (Competition competition);
     Competition getCompetition (String code);
+    Competition updateCompetition(Competition competition);
 }

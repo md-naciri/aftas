@@ -20,6 +20,7 @@ public record CompetitionRequestVM(
         @NotNull(message = "Amount cannot be null")
         @Positive(message = "Amount must be a positive number")
         Double amount
+
 ) {
    public Competition toCompetition(){
        return new Competition().builder()
@@ -28,6 +29,7 @@ public record CompetitionRequestVM(
                .endTime(endTime)
                .location(location)
                .amount(amount)
+               .numberOfParticipants(0)
                .build();
    }
 }

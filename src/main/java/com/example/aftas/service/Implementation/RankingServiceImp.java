@@ -38,6 +38,8 @@ public class RankingServiceImp implements RankingService {
         if(dateTimeComparison(competition.getDate(),competition.getStartTime())){
             throw new OperationException("You cannot register if there are less than 24 hours before the competition starts or if the competition has ended");
         }
+        competition.setNumberOfParticipants(competition.getNumberOfParticipants()+1);
+        competitionService.updateCompetition(competition);
         return rankingRepository.save(
                 Ranking.builder()
                         .id(RankId.builder()
