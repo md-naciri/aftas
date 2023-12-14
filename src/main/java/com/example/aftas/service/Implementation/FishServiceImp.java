@@ -18,4 +18,11 @@ public class FishServiceImp implements FishService {
         if(fish.isEmpty()) throw new IllegalArgumentException("Fish doesn't exist");
         return fish.get();
     }
+
+    @Override
+    public Fish createFish(Fish fish) {
+        Optional<Fish> isFishExist = fishRepository.findByName(fish.getName());
+        if(isFishExist.isPresent()) throw new IllegalArgumentException("Fish already exists");
+        return fishRepository.save(fish);
+    }
 }
