@@ -1,11 +1,14 @@
 package com.example.aftas.service.Implementation;
 
 import com.example.aftas.domain.*;
+import com.example.aftas.handler.OperationException;
 import com.example.aftas.repository.FishRepository;
 import com.example.aftas.repository.HuntingRepository;
 import com.example.aftas.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -13,37 +16,55 @@ public class HuntingServiceImp implements HuntingService {
     private final HuntingRepository huntingRepository;
     private final FishService fishService;
     private final RankingService rankingService;
+    private final MemberService memberService;
+    private final CompetitionService competitionService;
     @Override
     public Hunting createHunting(Long memberNumber, String competitionCode, String fishName, Double fishWeight) {
         Ranking memberRegistered = rankingService.getRanking(memberNumber, competitionCode);
         Fish fish = fishService.getFish(fishName);
-        return null;
+        if (!compareWeight(fishWeight, fish.getAverageWeight())){
+            throw new OperationException("The weight of that fish is lower than the average weight");
+        }
+        Member member = memberService.getMember(memberNumber);
+        Competition competition = competitionService.getCompetition(competitionCode);
+        Hunting hunting = doesMemberHuntFish(memberNumber, competitionCode, fishName);
+        if (hunting!=null){
+            return huntingRepository.save(
+                    Hunting.builder()
+                            .id(hunting.getId())
+                            .numberOfFish(hunting.getNumberOfFish()+1)
+                            .fish(fish)
+                            .member(member)
+                            .competition(competition)
+                            .build()
+            );
+
+        }
+        else {
+            return huntingRepository.save(
+                    Hunting.builder()
+                            .numberOfFish(1)
+                            .fish(fish)
+                            .member(member)
+                            .competition(competition)
+                            .build()
+            );
+        }
+
+        // I have now to calculate the score on the ranking table or update it
     }
 
-    /*
+    @Override
+    public Hunting doesMemberHuntFish(Long memberNumber, String competitionCode, String fishName) {
+        Member member = memberService.getMember(memberNumber);
+        Competition competition = competitionService.getCompetition(competitionCode);
+        Fish fish = fishService.getFish(fishName);
+        Optional<Hunting> hunting = huntingRepository.findByMemberAndCompetitionAndFish(member, competition, fish);
+        return hunting.orElse(null);
+    }
 
-        Member member = memberService.getMember(number);
-        Competition competition = competitionService.getCompetition(code);
-        Ranking rankingByMemberAndCompetition = rankingRepository.findRankingByMemberAndCompetition(member, competition);
-        if(rankingByMemberAndCompetition != null){
-            throw new OperationException("This member is already registered to this competition");
-        }
-        if(dateTimeComparison(competition.getDate(),competition.getStartTime())){
-            throw new OperationException("If there's less than 24 hours left before the competition starts, you can't register");
-        }
-        return rankingRepository.save(
-                Ranking.builder()
-                        .id(RankId.builder()
-                                .member_number(member.getNumber())
-                                .competition_code(competition.getCode())
-                                .build()
-                        )
-                        .member(member)
-                        .competition(competition)
-                        .raank(0)
-                        .score(0)
-                        .build()
-        );
+    public boolean compareWeight(Double fishWeight, Double fishAverageWeight){
+        return fishWeight >= fishAverageWeight;
+    }
 
-     */
 }

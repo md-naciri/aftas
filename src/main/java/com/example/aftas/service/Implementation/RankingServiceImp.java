@@ -1,6 +1,7 @@
 package com.example.aftas.service.Implementation;
 
 import com.example.aftas.domain.Competition;
+import com.example.aftas.domain.Fish;
 import com.example.aftas.domain.Member;
 import com.example.aftas.domain.Ranking;
 import com.example.aftas.domain.embeddable.RankId;
@@ -47,6 +48,23 @@ public class RankingServiceImp implements RankingService {
                         .score(0)
                         .build()
         );
+    }
+
+    public Ranking calculateScore(Fish fish, Ranking ranking, Member member, Competition competition, Integer numberOfFish){
+        Integer points = fish.getLevel().getPoints();
+        return rankingRepository.save(
+                Ranking.builder()
+                        .id(RankId.builder()
+                                .member_number(member.getNumber())
+                                .competition_code(competition.getCode())
+                                .build())
+                        .member(member)
+                        .competition(competition)
+                        .raank(0)
+                        .score(numberOfFish * points)
+                        .build()
+        );
+
     }
 
     @Override

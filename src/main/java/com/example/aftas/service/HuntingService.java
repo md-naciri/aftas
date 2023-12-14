@@ -4,5 +4,5 @@ import com.example.aftas.domain.Hunting;
 
 public interface HuntingService {
     Hunting createHunting(Long memberNumber, String competitionCode, String fishName, Double fishWeight);
-
+    Hunting doesMemberHuntFish (Long memberNumber, String competitionCode, String fishName);
 }
