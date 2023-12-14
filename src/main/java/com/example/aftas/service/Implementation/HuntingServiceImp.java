@@ -8,6 +8,10 @@ import com.example.aftas.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Optional;
 
 @Service
@@ -22,11 +26,11 @@ public class HuntingServiceImp implements HuntingService {
     public Hunting createHunting(Long memberNumber, String competitionCode, String fishName, Double fishWeight) {
         Ranking memberRegistered = rankingService.getRanking(memberNumber, competitionCode);
         Fish fish = fishService.getFish(fishName);
-        if (!compareWeight(fishWeight, fish.getAverageWeight())){
-            throw new OperationException("The weight of that fish is lower than the average weight");
-        }
-        Member member = memberService.getMember(memberNumber);
+        if (!compareWeight(fishWeight, fish.getAverageWeight())) throw new OperationException("The weight of that fish is lower than the average weight");
         Competition competition = competitionService.getCompetition(competitionCode);
+        if (!isHuntBetweenStartAndEndCompetitionTime(competition.getDate(),competition.getStartTime(),competition.getEndTime())) throw new OperationException("You are not allowed to submit an entry before the competition begins or after it has ended");
+
+        Member member = memberService.getMember(memberNumber);
         Hunting hunting = doesMemberHuntFish(memberNumber, competitionCode, fishName);
         if (hunting!=null){
             Integer numberOfFish = hunting.getNumberOfFish();
@@ -65,6 +69,13 @@ public class HuntingServiceImp implements HuntingService {
 
     public boolean compareWeight(Double fishWeight, Double fishAverageWeight){
         return fishWeight >= fishAverageWeight;
+    }
+
+    public boolean isHuntBetweenStartAndEndCompetitionTime(LocalDate date, LocalTime startTime, LocalTime endTime){
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        LocalDateTime competitionStartTime = LocalDateTime.of(date, startTime);
+        LocalDateTime competitionEndTime = LocalDateTime.of(date, endTime);
+        return currentDateTime.isAfter(competitionStartTime) && currentDateTime.isBefore(competitionEndTime);
     }
 
 }
