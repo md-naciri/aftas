@@ -106,7 +106,7 @@ public class RankingServiceImp implements RankingService {
     public boolean dateTimeComparison(LocalDate date, LocalTime time){
         LocalDateTime currentDateTime = LocalDateTime.now();
         LocalDateTime competitionDateTime = LocalDateTime.of(date, time);
-        if (competitionDateTime.isBefore(currentDateTime)) return false;
+        if (competitionDateTime.isBefore(currentDateTime)) return true;
         Duration duration = Duration.between(currentDateTime, competitionDateTime);
         return Math.abs(duration.getSeconds()) < 86400;
     }
