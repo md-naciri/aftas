@@ -1,6 +1,7 @@
 package com.example.aftas.service.Implementation;
 
 import com.example.aftas.domain.Level;
+import com.example.aftas.domain.Member;
 import com.example.aftas.handler.OperationException;
 import com.example.aftas.repository.LevelRepository;
 import com.example.aftas.service.LevelService;
@@ -15,15 +16,24 @@ public class LevelServiceImp implements LevelService {
     private final LevelRepository levelRepository;
     @Override
     public Level createLevel(Level level) {
-        if (getLevel(level.getCode())) throw new OperationException("Level code already exists");
+        if (isLevelExist(level.getCode())) throw new OperationException("Level code already exists");
         checkLevelCodePoints(level);
         return levelRepository.save(level);
     }
 
     @Override
-    public boolean getLevel(Integer levelCode) {
+    public boolean isLevelExist(Integer levelCode) {
         Optional<Level> level = levelRepository.getLevelByCode(levelCode);
         return level.isPresent();
+    }
+
+    @Override
+    public Level getLevel(Integer levelCode) {
+        Optional<Level> level = levelRepository.getLevelByCode(levelCode);
+        if (level.isEmpty()){
+            throw new IllegalArgumentException("Member doesn't exist");
+        }
+        return level.get();
     }
 
     public void checkLevelCodePoints(Level newLevel){
