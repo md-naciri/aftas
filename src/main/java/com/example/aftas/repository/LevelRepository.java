@@ -11,4 +11,5 @@ import java.util.Optional;
 public interface LevelRepository extends JpaRepository<Level, Long> {
     @Query("SELECT l FROM Level l WHERE l.code = :code")
     Optional<Level> getLevelByCode(Integer code);
+
 }

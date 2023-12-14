@@ -32,8 +32,6 @@ public record MemberRequestVM(
         String identityNumber,
         java.util.List<com.example.aftas.domain.Ranking> listOfRanking) {
     public Member toMember(){
-        //new Member();
-        //        return Member.builder()
         return new Member().builder()
                 .firstName(firstName)
                 .lastName(lastName)

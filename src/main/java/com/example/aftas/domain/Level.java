@@ -1,5 +1,4 @@
 package com.example.aftas.domain;
-
 import jakarta.persistence.*;
 import lombok.*;
 import java.util.List;
@@ -12,8 +11,7 @@ import java.util.List;
 @Builder
 public class Level {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(unique = true)
     private Integer code;
     private String description;
     private Integer points;
