@@ -1,7 +1,9 @@
 package com.example.aftas.controller;
 
 import com.example.aftas.VM.HuntingRequestVM;
+import com.example.aftas.VM.HuntingResponseVM;
 import com.example.aftas.domain.Hunting;
+import com.example.aftas.domain.Ranking;
 import com.example.aftas.handler.ResponseHandler;
 import com.example.aftas.service.HuntingService;
 import jakarta.validation.Valid;
@@ -20,6 +22,7 @@ public class HuntingController {
     @PostMapping
     public ResponseEntity<?> insertHunting(@RequestBody @Valid HuntingRequestVM huntingRequestVM){
         Hunting hunting = huntingService.createHunting(huntingRequestVM.memberNumber(), huntingRequestVM.competitionCode(), huntingRequestVM.fishName(), huntingRequestVM.fishWeight());
-        return ResponseHandler.created(hunting, "Hunting inserted successfully");
+        HuntingResponseVM huntingResponseVM = HuntingResponseVM.huntingResponseVM(hunting);
+        return ResponseHandler.created(huntingResponseVM, "Hunting inserted successfully");
     }
 }

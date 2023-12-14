@@ -30,7 +30,7 @@ public class HuntingServiceImp implements HuntingService {
         Hunting hunting = doesMemberHuntFish(memberNumber, competitionCode, fishName);
         if (hunting!=null){
             Integer numberOfFish = hunting.getNumberOfFish();
-            rankingService.calculateScore(fish, memberRegistered, member, competition, numberOfFish);
+            rankingService.calculateScore(fish, memberRegistered, member, competition, numberOfFish+1);
             return huntingRepository.save(
                     Hunting.builder()
                             .id(hunting.getId())

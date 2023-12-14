@@ -73,7 +73,7 @@ public class RankingServiceImp implements RankingService {
                         .member(member)
                         .competition(competition)
                         .raank(0)
-                        .score(numberOfFish * points)
+                        .score(ranking.getScore() + points)
                         .build()
         );
     }
@@ -86,6 +86,5 @@ public class RankingServiceImp implements RankingService {
     }
 
 
-    }
 
 }
