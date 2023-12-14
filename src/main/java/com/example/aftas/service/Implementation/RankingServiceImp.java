@@ -8,6 +8,7 @@ import com.example.aftas.domain.embeddable.RankId;
 import com.example.aftas.handler.OperationException;
 import com.example.aftas.repository.RankingRepository;
 import com.example.aftas.service.CompetitionService;
+import com.example.aftas.service.HuntingService;
 import com.example.aftas.service.MemberService;
 import com.example.aftas.service.RankingService;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +18,8 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -24,6 +27,7 @@ public class RankingServiceImp implements RankingService {
     private final RankingRepository rankingRepository;
     private final MemberService memberService;
     private final CompetitionService competitionService;
+    private final HuntingService huntingService;
     @Override
     public Ranking registerMemberForCompetition(Long memberNumber, String competitionCode) {
         Member member = memberService.getMember(memberNumber);
@@ -76,6 +80,26 @@ public class RankingServiceImp implements RankingService {
                         .score(ranking.getScore() + points)
                         .build()
         );
+    }
+
+    @Override
+    public List<Ranking> ListScores(String codeCompetition) {
+        competitionService.getCompetition(codeCompetition);
+        List<Ranking> rankingList = rankingRepository.findAllByCompetition_CodeOrderByScoreDesc(codeCompetition);
+        if(rankingList == null) throw new OperationException("No hunt inserted yet");
+        int[] index = {0};
+        return rankingList.stream().map(ranking ->
+                Ranking.builder()
+                        .id(RankId.builder()
+                                .member_number(ranking.getMember().getNumber())
+                                .competition_code(ranking.getCompetition().getCode())
+                                .build())
+                        .member(ranking.getMember())
+                        .competition(ranking.getCompetition())
+                        .raank(++index[0])
+                        .score(ranking.getScore())
+                        .build()
+                ).toList();
     }
 
     public boolean dateTimeComparison(LocalDate date, LocalTime time){

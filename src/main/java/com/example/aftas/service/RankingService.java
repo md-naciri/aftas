@@ -11,5 +11,5 @@ public interface RankingService {
     Ranking registerMemberForCompetition(Long number, String code);
     Ranking getRanking (Long number, String code);
     Ranking calculateScore(Fish fish, Ranking ranking, Member member, Competition competition, Integer numberOfFish);
-    List<Ranking> ListScores(Competition competition);
+    List<Ranking> ListScores(String codeCompetition);
 }
