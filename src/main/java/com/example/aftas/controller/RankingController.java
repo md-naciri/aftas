@@ -1,5 +1,6 @@
 package com.example.aftas.controller;
 
+import com.example.aftas.VM.CompetitionResponseVM;
 import com.example.aftas.VM.RankingRequestVM;
 import com.example.aftas.VM.RankingResponseVM;
 import com.example.aftas.domain.Competition;
@@ -11,6 +12,12 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+
 @RestController
 @RequestMapping("/aftas/api/v1/ranking")
 @RequiredArgsConstructor
@@ -26,6 +33,14 @@ public class RankingController {
         Ranking ranking = rankingService.getRanking(id, code);
         RankingResponseVM rankingResponseVM = RankingResponseVM.rankingResponse(ranking);
         return ResponseHandler.ok(rankingResponseVM, "Ranking Found Successfully");
+    }
+    @GetMapping("/competition/{code}")
+    public ResponseEntity<?> getCompetitionRank(@PathVariable("code") String competitionCode){
+        List<Ranking> rankings = rankingService.listScores(competitionCode);
+        Map<Object, Object> rankingResponse = new HashMap<>();
+        rankingResponse.put("Competition", competitionCode);
+        rankings.forEach(ranking -> rankingResponse.put(ranking.getRaank(), List.of(ranking.getMember().getFirstName(), ranking.getMember().getLastName())));
+        return ResponseHandler.ok(rankingResponse, "List of ranks successfully generated");
     }
 
 }

@@ -25,4 +25,5 @@ public record RankingResponseVM(
                 ranking.getScore()
         );
     }
+
 }

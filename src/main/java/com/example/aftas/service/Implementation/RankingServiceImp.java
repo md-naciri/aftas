@@ -27,7 +27,6 @@ public class RankingServiceImp implements RankingService {
     private final RankingRepository rankingRepository;
     private final MemberService memberService;
     private final CompetitionService competitionService;
-    private final HuntingService huntingService;
     @Override
     public Ranking registerMemberForCompetition(Long memberNumber, String competitionCode) {
         Member member = memberService.getMember(memberNumber);
@@ -83,12 +82,12 @@ public class RankingServiceImp implements RankingService {
     }
 
     @Override
-    public List<Ranking> ListScores(String codeCompetition) {
+    public List<Ranking> listScores(String codeCompetition) {
         competitionService.getCompetition(codeCompetition);
         List<Ranking> rankingList = rankingRepository.findAllByCompetition_CodeOrderByScoreDesc(codeCompetition);
         if(rankingList == null) throw new OperationException("No hunt inserted yet");
         int[] index = {0};
-        return rankingList.stream().map(ranking ->
+        List<Ranking> updatedList = rankingList.stream().map(ranking ->
                 Ranking.builder()
                         .id(RankId.builder()
                                 .member_number(ranking.getMember().getNumber())
@@ -100,6 +99,8 @@ public class RankingServiceImp implements RankingService {
                         .score(ranking.getScore())
                         .build()
                 ).toList();
+        rankingRepository.saveAll(updatedList);
+        return updatedList;
     }
 
     public boolean dateTimeComparison(LocalDate date, LocalTime time){
