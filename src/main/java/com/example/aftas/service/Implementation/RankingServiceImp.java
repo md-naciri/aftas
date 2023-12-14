@@ -50,7 +50,19 @@ public class RankingServiceImp implements RankingService {
         );
     }
 
-    public Ranking calculateScore(Fish fish, Ranking ranking, Member member, Competition competition, Integer numberOfFish){
+    @Override
+    public Ranking getRanking(Long memberNumber, String competitionCode) {
+        Member member = memberService.getMember(memberNumber);
+        Competition competition = competitionService.getCompetition(competitionCode);
+        Ranking rankingByMemberAndCompetition = rankingRepository.findRankingByMemberAndCompetition(member, competition);
+        if (rankingByMemberAndCompetition == null){
+            throw new IllegalArgumentException("This Member is not registered for this competition");
+        }
+        return rankingByMemberAndCompetition;
+    }
+
+    @Override
+    public Ranking calculateScore(Fish fish, Ranking ranking, Member member, Competition competition, Integer numberOfFish) {
         Integer points = fish.getLevel().getPoints();
         return rankingRepository.save(
                 Ranking.builder()
@@ -64,18 +76,6 @@ public class RankingServiceImp implements RankingService {
                         .score(numberOfFish * points)
                         .build()
         );
-
-    }
-
-    @Override
-    public Ranking getRanking(Long memberNumber, String competitionCode) {
-        Member member = memberService.getMember(memberNumber);
-        Competition competition = competitionService.getCompetition(competitionCode);
-        Ranking rankingByMemberAndCompetition = rankingRepository.findRankingByMemberAndCompetition(member, competition);
-        if (rankingByMemberAndCompetition == null){
-            throw new IllegalArgumentException("This Member is not registered for this competition");
-        }
-        return rankingByMemberAndCompetition;
     }
 
     public boolean dateTimeComparison(LocalDate date, LocalTime time){
@@ -83,6 +83,9 @@ public class RankingServiceImp implements RankingService {
         LocalDateTime competitionDateTime = LocalDateTime.of(date, time);
         Duration duration = Duration.between(currentDateTime, competitionDateTime);
         return Math.abs(duration.getSeconds()) < 86400;
+    }
+
+
     }
 
 }

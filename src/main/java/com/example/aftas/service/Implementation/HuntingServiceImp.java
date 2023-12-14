@@ -29,18 +29,20 @@ public class HuntingServiceImp implements HuntingService {
         Competition competition = competitionService.getCompetition(competitionCode);
         Hunting hunting = doesMemberHuntFish(memberNumber, competitionCode, fishName);
         if (hunting!=null){
+            Integer numberOfFish = hunting.getNumberOfFish();
+            rankingService.calculateScore(fish, memberRegistered, member, competition, numberOfFish);
             return huntingRepository.save(
                     Hunting.builder()
                             .id(hunting.getId())
-                            .numberOfFish(hunting.getNumberOfFish()+1)
+                            .numberOfFish(numberOfFish+1)
                             .fish(fish)
                             .member(member)
                             .competition(competition)
                             .build()
             );
-
         }
         else {
+            rankingService.calculateScore(fish, memberRegistered, member, competition, 1);
             return huntingRepository.save(
                     Hunting.builder()
                             .numberOfFish(1)
@@ -50,8 +52,6 @@ public class HuntingServiceImp implements HuntingService {
                             .build()
             );
         }
-
-        // I have now to calculate the score on the ranking table or update it
     }
 
     @Override
