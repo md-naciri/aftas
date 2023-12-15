@@ -23,40 +23,36 @@ public class HuntingServiceImp implements HuntingService {
     private final MemberService memberService;
     private final CompetitionService competitionService;
     @Override
-    public Hunting createHunting(Long memberNumber, String competitionCode, String fishName, Double fishWeight) {
+    public Hunting createHunting(Hunting huntingRec) {
+        Long memberNumber = huntingRec.getMember().getNumber();
+        String competitionCode = huntingRec.getCompetition().getCode();
+        String fishName = huntingRec.getFish().getName();
+        Double fishWeight = huntingRec.getFish().getAverageWeight();
         Ranking memberRegistered = rankingService.getRanking(memberNumber, competitionCode);
+
+        // check fish
         Fish fish = fishService.getFish(fishName);
         if (!compareWeight(fishWeight, fish.getAverageWeight())) throw new OperationException("The weight of that fish is lower than the average weight");
-        Competition competition = competitionService.getCompetition(competitionCode);
-        if (!isHuntBetweenStartAndEndCompetitionTime(competition.getDate(),competition.getStartTime(),competition.getEndTime())) throw new OperationException("You are not allowed to submit an entry before the competition begins or after it has ended");
 
+        //check competition
+        Competition competition = competitionService.getCompetition(competitionCode);
+        if (!isHuntBetweenStartAndEndCompetitionTime(competition.getDate(),competition.getStartTime())) throw new OperationException("You are not allowed to submit an entry before the competition begins or after the day has ended");
+
+        //check member
         Member member = memberService.getMember(memberNumber);
-        Hunting hunting = doesMemberHuntFish(memberNumber, competitionCode, fishName);
-        Hunting savedHunting;
-        if (hunting!=null){
-            Integer numberOfFish = hunting.getNumberOfFish();
-            rankingService.calculateScore(fish, memberRegistered, member, competition, numberOfFish+1);
-            return huntingRepository.save(
-                    Hunting.builder()
-                            .id(hunting.getId())
-                            .numberOfFish(numberOfFish+1)
-                            .fish(fish)
-                            .member(member)
-                            .competition(competition)
-                            .build()
-            );
-        }
-        else {
-            rankingService.calculateScore(fish, memberRegistered, member, competition, 1);
-            return huntingRepository.save(
-                    Hunting.builder()
-                            .numberOfFish(1)
-                            .fish(fish)
-                            .member(member)
-                            .competition(competition)
-                            .build()
-            );
-        }
+
+        // check hunting
+        Hunting hunting =  huntingRepository.findByMemberAndCompetitionAndFish(member, competition, fish).orElse(null);
+
+        rankingService.calculateScore(fish, memberRegistered, member, competition);
+
+        Hunting.HuntingBuilder huntingBuilder = Hunting.builder()
+                .fish(fish)
+                .member(member)
+                .competition(competition);
+        if (hunting!=null) huntingBuilder.id(hunting.getId()).numberOfFish(hunting.getNumberOfFish()+1);
+        else huntingBuilder.numberOfFish(1);
+        return huntingRepository.save(huntingBuilder.build());
     }
 
     @Override
@@ -72,10 +68,10 @@ public class HuntingServiceImp implements HuntingService {
         return fishWeight >= fishAverageWeight;
     }
 
-    public boolean isHuntBetweenStartAndEndCompetitionTime(LocalDate date, LocalTime startTime, LocalTime endTime){
+    public boolean isHuntBetweenStartAndEndCompetitionTime(LocalDate date, LocalTime startTime){
         LocalDateTime currentDateTime = LocalDateTime.now();
         LocalDateTime competitionStartTime = LocalDateTime.of(date, startTime);
-        LocalDateTime competitionEndTime = LocalDateTime.of(date, endTime);
+        LocalDateTime competitionEndTime = LocalDateTime.of(date, LocalTime.MAX);
         return currentDateTime.isAfter(competitionStartTime) && currentDateTime.isBefore(competitionEndTime);
     }
 

@@ -66,7 +66,7 @@ public class RankingServiceImp implements RankingService {
     }
 
     @Override
-    public Ranking calculateScore(Fish fish, Ranking ranking, Member member, Competition competition, Integer numberOfFish) {
+    public Ranking calculateScore(Fish fish, Ranking ranking, Member member, Competition competition) {
         Integer points = fish.getLevel().getPoints();
         return rankingRepository.save(
                 Ranking.builder()

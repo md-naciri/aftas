@@ -10,6 +10,6 @@ import java.util.List;
 public interface RankingService {
     Ranking registerMemberForCompetition(Long number, String code);
     Ranking getRanking (Long number, String code);
-    Ranking calculateScore(Fish fish, Ranking ranking, Member member, Competition competition, Integer numberOfFish);
+    Ranking calculateScore(Fish fish, Ranking ranking, Member member, Competition competition);
     List<Ranking> listScores(String codeCompetition);
 }

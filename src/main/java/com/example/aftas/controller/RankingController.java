@@ -39,7 +39,7 @@ public class RankingController {
         List<Ranking> rankings = rankingService.listScores(competitionCode);
         Map<Object, Object> rankingResponse = new HashMap<>();
         rankingResponse.put("Competition", competitionCode);
-        rankings.forEach(ranking -> rankingResponse.put(ranking.getRaank(), List.of(ranking.getMember().getFirstName(), ranking.getMember().getLastName())));
+        rankings.forEach(ranking -> rankingResponse.put(ranking.getRaank(), List.of(ranking.getMember().getFirstName(), ranking.getMember().getLastName(), ranking.getScore())));
         return ResponseHandler.ok(rankingResponse, "List of ranks successfully generated");
     }
 

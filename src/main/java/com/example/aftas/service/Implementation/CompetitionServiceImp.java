@@ -24,6 +24,7 @@ public class CompetitionServiceImp implements CompetitionService {
         if (competitionByDate.isPresent()){
             throw new OperationException("You can't create more than one competitions with the same date, only one competition a day");
         }
+        //startdate>enddate
         competition.setCode(generateCode(competition.getLocation(), competition.getDate()));
         return competitionRepository.save(competition);
     }

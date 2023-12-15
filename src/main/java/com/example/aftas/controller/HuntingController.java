@@ -21,7 +21,7 @@ public class HuntingController {
     private final HuntingService huntingService;
     @PostMapping
     public ResponseEntity<?> insertHunting(@RequestBody @Valid HuntingRequestVM huntingRequestVM){
-        Hunting hunting = huntingService.createHunting(huntingRequestVM.memberNumber(), huntingRequestVM.competitionCode(), huntingRequestVM.fishName(), huntingRequestVM.fishWeight());
+        Hunting hunting = huntingService.createHunting(huntingRequestVM.toHunting());
         HuntingResponseVM huntingResponseVM = HuntingResponseVM.huntingResponseVM(hunting);
         return ResponseHandler.created(huntingResponseVM, "Hunting inserted successfully");
     }
