@@ -14,4 +14,7 @@ export class CompetitionService {
   getCompetitions(): Observable<any>{
     return this.http.get(this.BASEURL);
   }
+  createCompetition(data: any): Observable<any>{
+    return this.http.post(this.BASEURL, data)
+  }
 }
