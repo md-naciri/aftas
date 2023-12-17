@@ -10,6 +10,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @RestController
 @RequestMapping("/aftas/api/v1/competition")
 @RequiredArgsConstructor
@@ -25,6 +28,17 @@ public class CompetitionController {
     public ResponseEntity<?> getCompetition(@PathVariable("code") String code){
         CompetitionResponseVM competitionResponseVM = CompetitionResponseVM.fromCompetition(competitionService.getCompetition(code));
         return ResponseHandler.ok(competitionResponseVM, "Competition Found Successfully");
+        //return ResponseEntity.ok().body(competitionService.getCompetition(code));
+    }
+    @GetMapping
+    public ResponseEntity<?> getCompetitions(){
+        List<Competition> competitions = competitionService.getCompetitions();
+        List<CompetitionResponseVM> response = new ArrayList<>();
+
+        for (Competition competition : competitions) {
+            response.add(CompetitionResponseVM.fromCompetition(competition));
+        }
+        return ResponseHandler.ok(response, "Competitions Found Successfully");
         //return ResponseEntity.ok().body(competitionService.getCompetition(code));
     }
 }

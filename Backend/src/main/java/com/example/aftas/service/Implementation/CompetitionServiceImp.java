@@ -7,11 +7,9 @@ import com.example.aftas.service.CompetitionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.Duration;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -47,6 +45,11 @@ public class CompetitionServiceImp implements CompetitionService {
     @Override
     public Competition updateCompetition(Competition competition) {
         return competitionRepository.save(competition);
+    }
+
+    @Override
+    public List<Competition> getCompetitions() {
+        return  competitionRepository.findAll();
     }
 
 }
