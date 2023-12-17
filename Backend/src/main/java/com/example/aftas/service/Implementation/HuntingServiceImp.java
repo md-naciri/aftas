@@ -44,7 +44,7 @@ public class HuntingServiceImp implements HuntingService {
         // check hunting
         Hunting hunting =  huntingRepository.findByMemberAndCompetitionAndFish(member, competition, fish).orElse(null);
 
-        rankingService.calculateScore(fish, memberRegistered, member, competition);
+        rankingService.calculateScore(fish, memberRegistered);
 
         Hunting.HuntingBuilder huntingBuilder = Hunting.builder()
                 .fish(fish)

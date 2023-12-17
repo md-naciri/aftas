@@ -19,6 +19,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -66,7 +67,12 @@ public class RankingServiceImp implements RankingService {
     }
 
     @Override
-    public Ranking calculateScore(Fish fish, Ranking ranking, Member member, Competition competition) {
+    public Ranking calculateScore(Fish fish, Ranking ranking) {
+        Integer points = fish.getLevel().getPoints();
+        ranking.setScore(points + ranking.getScore());
+        return rankingRepository.save(ranking);
+    }
+    /*public Ranking calculateScore(Fish fish, Ranking ranking, Member member, Competition competition) {
         Integer points = fish.getLevel().getPoints();
         return rankingRepository.save(
                 Ranking.builder()
@@ -80,10 +86,24 @@ public class RankingServiceImp implements RankingService {
                         .score(ranking.getScore() + points)
                         .build()
         );
-    }
+    }*/
 
     @Override
     public List<Ranking> listScores(String codeCompetition) {
+        competitionService.getCompetition(codeCompetition);
+        List<Ranking> rankingList = rankingRepository.findAllByCompetition_CodeOrderByScoreDesc(codeCompetition);
+        if(rankingList == null) throw new OperationException("No hunt inserted yet");
+        int[] index = {0};
+        List<Ranking> updatedList = rankingList.stream().map(ranking ->{
+            ranking.setRaank(++index[0]);
+            return ranking;
+                }
+
+        ).collect(Collectors.toList());
+        rankingRepository.saveAll(updatedList);
+        return updatedList;
+    }
+    /*public List<Ranking> listScores(String codeCompetition) {
         competitionService.getCompetition(codeCompetition);
         List<Ranking> rankingList = rankingRepository.findAllByCompetition_CodeOrderByScoreDesc(codeCompetition);
         if(rankingList == null) throw new OperationException("No hunt inserted yet");
@@ -102,7 +122,7 @@ public class RankingServiceImp implements RankingService {
                 ).toList();
         rankingRepository.saveAll(updatedList);
         return updatedList;
-    }
+    }*/
 
     public boolean dateTimeComparison(LocalDate date, LocalTime time){
         LocalDateTime currentDateTime = LocalDateTime.now();
