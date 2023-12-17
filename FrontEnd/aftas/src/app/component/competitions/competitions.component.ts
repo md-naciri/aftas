@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Competition } from 'src/app/entity/competition';
+import { CompetitionResponse } from 'src/app/entity/competition-response';
 import { CompetitionService } from 'src/app/service/competition.service';
 
 @Component({
@@ -7,14 +9,16 @@ import { CompetitionService } from 'src/app/service/competition.service';
   styleUrls: ['./competitions.component.css']
 })
 export class CompetitionsComponent {
-  repetition: number[] = [1, 2, 3, 5, 4, 6, 7, 8, 9, 10]
+  competitions: Competition[]=[];
+  name: string = "ga3 Satat bnat l97ab"
   constructor(private competitionService: CompetitionService){}
   ngOnInit(): void{
     this.getCompetions()
   }
   getCompetions(){
-    this.competitionService.getCompetitions().subscribe(data => {
-      console.log(data);
+    this.competitionService.getCompetitions().subscribe((competition: CompetitionResponse) => {
+      this.competitions = competition.data
+      console.log(this.competitions)
     })
   }
 }

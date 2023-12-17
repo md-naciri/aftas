@@ -3,9 +3,9 @@ import { Time } from "@angular/common";
 export interface Competition {
     code: string,
     date: Date,
-    startTime: Time, 
-    endTime: Time,
-    numberOfParticipants: number,
+    Start_Time: Time, 
+    End_Time: Time,
+    Number_Of_Participants: number,
     location: string,
     amount: number
 }
