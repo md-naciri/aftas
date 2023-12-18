@@ -19,10 +19,9 @@ public class CompetitionServiceImp implements CompetitionService {
     @Override
     public Competition createCompetition(Competition competition) {
         Optional<Competition> competitionByDate = competitionRepository.findCompetitionByDate(competition.getDate());
-        if (competitionByDate.isPresent()){
-            throw new OperationException("You can't create more than one competitions with the same date, only one competition a day");
-        }
-        //startdate>enddate
+        if (competitionByDate.isPresent()) throw new OperationException("You can't create more than one competitions with the same date, only one competition a day");
+        if (competition.getEndTime().isBefore(competition.getStartTime())) throw new OperationException("The End Time should be after the Start Time");
+        if (competition.getDate().isBefore(LocalDate.now()) || competition.getDate().isEqual(LocalDate.now())) throw new OperationException("You can't create a competition in the past or on the same day");
         competition.setCode(generateCode(competition.getLocation(), competition.getDate()));
         return competitionRepository.save(competition);
     }
