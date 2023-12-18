@@ -10,4 +10,5 @@ public interface MemberService {
     Member getMember (Long id);
     List<Member> findByNumberOrFirstNameOrLastName(String search);
 
+    List<Member> getMembers();
 }

@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public record MemberResponseVM(
+        Long number,
         String Fist_Name,
         String Last_Name,
         LocalDate Accession_Date,
@@ -20,6 +21,7 @@ public record MemberResponseVM(
 ) {
     public static MemberResponseVM fromMember(Member member){
         return new MemberResponseVM(
+                member.getNumber(),
                 member.getFirstName(),
                 member.getLastName(),
                 member.getAccessionDate(),
@@ -32,6 +34,7 @@ public record MemberResponseVM(
     public static List<MemberResponseVM> fromListOfMembers(List<Member> members){
         return members.stream().map(
                 member -> new MemberResponseVM(
+                        member.getNumber(),
                         member.getFirstName(),
                         member.getLastName(),
                         member.getAccessionDate(),

@@ -6,13 +6,11 @@ import com.example.aftas.domain.Member;
 import com.example.aftas.handler.ResponseHandler;
 import com.example.aftas.service.MemberService;
 import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -46,5 +44,16 @@ public class MemberController {
         return ResponseHandler.ok(
                 membersResponse, "This is the result of your search"
         );
+    }
+
+    @GetMapping
+    public ResponseEntity<?> getMembers(){
+        List<Member> members = memberService.getMembers();
+        List<MemberResponseVM> response = new ArrayList<>();
+
+        for (Member member : members) {
+            response.add(MemberResponseVM.fromMember(member));
+        }
+        return ResponseHandler.ok(response, "Members Found Successfully");
     }
 }

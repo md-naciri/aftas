@@ -1,5 +1,6 @@
 package com.example.aftas.service.Implementation;
 
+import com.example.aftas.domain.Competition;
 import com.example.aftas.domain.Member;
 import com.example.aftas.handler.OperationException;
 import com.example.aftas.repository.MemberRepository;
@@ -26,6 +27,7 @@ public class MemberServiceImp implements MemberService {
         }
         return member.get();
     }
+
     @Override
     public List<Member> findByNumberOrFirstNameOrLastName(String search) {
         if(isStringLong(search)){
@@ -38,6 +40,12 @@ public class MemberServiceImp implements MemberService {
         if(membersList.isEmpty()) throw new OperationException("There is no member with this number/name");
         else return membersList;
     }
+
+    @Override
+    public List<Member> getMembers() {
+        return memberRepository.findAll();
+    }
+
     public boolean isStringLong(String search) {
         try {
             Long.parseLong(search);
