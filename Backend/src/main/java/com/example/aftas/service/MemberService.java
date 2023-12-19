@@ -4,11 +4,11 @@ import com.example.aftas.domain.Member;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface MemberService {
     Member createMember (Member member);
     Member getMember (Long id);
     List<Member> findByNumberOrFirstNameOrLastName(String search);
-
     List<Member> getMembers();
 }

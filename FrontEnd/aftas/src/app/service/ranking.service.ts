@@ -6,15 +6,10 @@ import { environment } from 'src/environments/environment.development';
 @Injectable({
   providedIn: 'root'
 })
-export class CompetitionService {
-  private readonly BASEURL = environment.BASE_URL+"/competition"
-
+export class RankingService {
+  private readonly BASEURL = environment.BASE_URL+"/ranking"
   constructor(private http: HttpClient) {}
-  
-  getCompetitions(): Observable<any>{
-    return this.http.get(this.BASEURL);
-  }
-  createCompetition(data: any): Observable<any>{
+  assignMemberForCompetition(data: any): Observable<any>{
     return this.http.post(this.BASEURL, data)
   }
 }

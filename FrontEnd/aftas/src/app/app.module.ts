@@ -9,14 +9,18 @@ import { CompetitionsComponent } from './component/competitions/competitions.com
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ToastrModule } from 'ngx-toastr';
-import {BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MembersComponent } from './component/members/members.component';
+import { RankingsComponent } from './component/rankings/rankings.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
-    CompetitionsComponent
+    CompetitionsComponent,
+    MembersComponent,
+    RankingsComponent
   ],
   imports: [
     BrowserModule,
@@ -24,8 +28,7 @@ import {BrowserAnimationsModule } from '@angular/platform-browser/animations';
     HttpClientModule,
     ReactiveFormsModule,
     ToastrModule.forRoot(),
-    BrowserAnimationsModule
-    
+    BrowserAnimationsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

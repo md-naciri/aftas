@@ -39,11 +39,23 @@ export class CompetitionsComponent {
       
     })
   }
+  // getCompetionsAfterToday(){
+  //   this.competitionService.getCompetitions().subscribe((competition: CompetitionResponse) => {
+  //     const tomorrow = new Date();
+  //     tomorrow.setDate(tomorrow.getDate() + 1);
+  //     this.competitions = competition.data.filter(competition => {
+  //       const compDate = new Date(competition.date)
+  //       return compDate > tomorrow;
+  //     })
+      
+  //   })
+  // }
   createCompetition(){
     if (this.addCompetitionForm.valid) {
+      
       this.competitionService.createCompetition(this.addCompetitionForm.value).subscribe({
         next: (val: any) => {
-          this.toastr.success('Item moved successfully.', 'Success', {
+          this.toastr.success('Competition created successfully.', 'Success', {
             closeButton: true,
             timeOut: 3000,
           });
