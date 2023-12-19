@@ -98,7 +98,6 @@ public class RankingServiceImp implements RankingService {
             ranking.setRaank(++index[0]);
             return ranking;
                 }
-
         ).collect(Collectors.toList());
         rankingRepository.saveAll(updatedList);
         return updatedList;
