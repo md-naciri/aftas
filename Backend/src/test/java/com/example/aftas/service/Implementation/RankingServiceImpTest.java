@@ -33,20 +33,18 @@ class RankingServiceImpTest {
 
     @Test
     void calculateScore() {
-        // Arrange
-        Level level = new Level(); // Assuming Level class exists and has a setPoints method
+
+        Level level = new Level();
         level.setPoints(10);
         when(fish.getLevel()).thenReturn(level);
         when(ranking.getScore()).thenReturn(6);
 
         Ranking updatedRanking = new Ranking();
-        updatedRanking.setScore(fish.getLevel().getPoints() + ranking.getScore()); // Expected score is 10 (from fish) + 5 (from ranking)
+        updatedRanking.setScore(16);
         when(rankingRepository.save(any(Ranking.class))).thenReturn(updatedRanking);
 
-        // Act
         Ranking result = rankingService.calculateScore(fish, ranking);
 
-        // Assert
         assertEquals(16, result.getScore());
         verify(rankingRepository).save(any(Ranking.class));
     }

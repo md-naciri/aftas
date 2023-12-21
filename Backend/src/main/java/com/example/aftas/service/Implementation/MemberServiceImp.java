@@ -20,6 +20,7 @@ public class MemberServiceImp implements MemberService {
         if (isMemberExist.isPresent()){
             throw new OperationException("Member already exists");
         }
+        Optional<Member> isMemberExist1 = isMemberExist;
         return memberRepository.save(member);
     }
     @Override

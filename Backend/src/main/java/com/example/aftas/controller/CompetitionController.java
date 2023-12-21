@@ -24,13 +24,11 @@ public class CompetitionController {
     public ResponseEntity<?> createCompetition (@RequestBody @Valid CompetitionRequestVM competitionRequestVM){
         Competition competition = competitionService.createCompetition(competitionRequestVM.toCompetition());
         return ResponseHandler.created(CompetitionResponseVM.fromCompetition(competition), "Competition created successfully");
-        //return ResponseEntity.ok().body(competitionService.createCompetition(competition));
     }
     @GetMapping("{code}")
     public ResponseEntity<?> getCompetition(@PathVariable("code") String code){
         CompetitionResponseVM competitionResponseVM = CompetitionResponseVM.fromCompetition(competitionService.getCompetition(code));
         return ResponseHandler.ok(competitionResponseVM, "Competition Found Successfully");
-        //return ResponseEntity.ok().body(competitionService.getCompetition(code));
     }
     @GetMapping("/pagination")
     public ResponseEntity<?> getCompetitionsPagination(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size){
@@ -41,7 +39,6 @@ public class CompetitionController {
             response.add(CompetitionResponseVM.fromCompetition(competition));
         }
         return ResponseHandler.ok(response, "Competitions Found Successfully");
-        //return ResponseEntity.ok().body(competitionService.getCompetition(code));
     }
     @GetMapping
     public ResponseEntity<?> getCompetitions(){

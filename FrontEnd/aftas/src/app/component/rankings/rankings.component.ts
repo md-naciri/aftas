@@ -25,9 +25,7 @@ export class RankingsComponent {
     private fb: FormBuilder,
     private toastr: ToastrService,
     private competitionService : CompetitionService
-  ){
-    
-  }
+  ){}
   ngOnInit(): void{
     this.getCompetions()
   }
@@ -37,12 +35,10 @@ export class RankingsComponent {
     })
   }
   getPodium(){    
-    console.log("dekhlat");
     this.rankingService.getMembersInCompetition(this.competitionCode).subscribe((ranking: RankingResponse) => {
       this.podium = ranking.data
     })
     console.log(this.podium);
-    
   }
   saveCompetitionCode(code: string){
     this.competitionCode = code;

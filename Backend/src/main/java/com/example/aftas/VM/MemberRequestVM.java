@@ -2,6 +2,7 @@ package com.example.aftas.VM;
 
 import com.example.aftas.domain.Member;
 import com.example.aftas.enums.IdentityDocumentType;
+import jakarta.persistence.Column;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.NotEmpty;

@@ -13,6 +13,7 @@ public record CompetitionResponseVM(
         Integer Number_Of_Participants,
         String location,
         Double amount
+
 ) {
     public static CompetitionResponseVM fromCompetition(Competition competition){
         return new CompetitionResponseVM(
