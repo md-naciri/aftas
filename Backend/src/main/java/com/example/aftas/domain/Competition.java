@@ -28,6 +28,8 @@ public class Competition {
 
     private LocalTime endTime;
 
+    //private LocalDate endDate;
+
     private Integer numberOfParticipants;
 
     private String location;

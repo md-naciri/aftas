@@ -29,6 +29,7 @@ public class CompetitionServiceImp implements CompetitionService {
         if (competition.getEndTime().isBefore(competition.getStartTime())) throw new OperationException("The End Time should be after the Start Time");
         if (competition.getDate().isBefore(LocalDate.now()) || competition.getDate().isEqual(LocalDate.now())) throw new OperationException("You can't create a competition in the past or on the same day");
         competition.setCode(generateCode(competition.getLocation(), competition.getDate()));
+        //competition.setEndDate(competition.getDate().plusDays(1));
         return competitionRepository.save(competition);
     }
 

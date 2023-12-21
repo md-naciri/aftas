@@ -8,6 +8,7 @@ import java.time.LocalTime;
 public record CompetitionResponseVM(
         String code,
         LocalDate date,
+        //LocalDate End_Date,
         LocalTime Start_Time,
         LocalTime End_Time,
         Integer Number_Of_Participants,
@@ -19,6 +20,7 @@ public record CompetitionResponseVM(
         return new CompetitionResponseVM(
                 competition.getCode(),
                 competition.getDate(),
+                //competition.getEndDate(),
                 competition.getStartTime(),
                 competition.getEndTime(),
                 competition.getNumberOfParticipants(),

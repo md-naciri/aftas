@@ -33,7 +33,6 @@ class RankingServiceImpTest {
 
     @Test
     void calculateScore() {
-
         Level level = new Level();
         level.setPoints(10);
         when(fish.getLevel()).thenReturn(level);
