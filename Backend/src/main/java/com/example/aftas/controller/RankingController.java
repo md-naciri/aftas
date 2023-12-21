@@ -6,6 +6,7 @@ import com.example.aftas.VM.RankingResponseVM;
 import com.example.aftas.domain.Competition;
 import com.example.aftas.domain.Member;
 import com.example.aftas.domain.Ranking;
+import com.example.aftas.handler.OperationException;
 import com.example.aftas.handler.ResponseHandler;
 import com.example.aftas.service.RankingService;
 import jakarta.validation.Valid;
@@ -13,10 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 @RestController
 @RequestMapping("/aftas/api/v1/ranking")
@@ -37,10 +35,14 @@ public class RankingController {
     @GetMapping("/competition/{code}")
     public ResponseEntity<?> getCompetitionRank(@PathVariable("code") String competitionCode){
         List<Ranking> rankings = rankingService.listScores(competitionCode);
-        Map<Object, Object> rankingResponse = new HashMap<>();
-        rankingResponse.put("Competition", competitionCode);
-        rankings.forEach(ranking -> rankingResponse.put(ranking.getRaank(), List.of(ranking.getMember().getFirstName(), ranking.getMember().getLastName(), ranking.getScore())));
-        return ResponseHandler.ok(rankingResponse, "List of ranks successfully generated");
+        List<RankingResponseVM> response = new ArrayList<>();
+        //Map<Object, Object> rankingResponse = new HashMap<>();
+        //rankingResponse.put("Competition", competitionCode);
+        //rankings.forEach(ranking -> rankingResponse.put(ranking.getRaank(), List.of(ranking.getMember().getFirstName(), ranking.getMember().getLastName(), ranking.getScore())));
+        for (int i = 0; i < rankings.size(); i++) {
+            response.add(RankingResponseVM.rankingResponse(rankings.get(i)));
+        }
+        return ResponseHandler.ok(response, "List of ranks successfully generated");
     }
 
 }

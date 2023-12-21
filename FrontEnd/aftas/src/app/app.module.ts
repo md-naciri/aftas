@@ -7,11 +7,15 @@ import { NavbarComponent } from './component/navbar/navbar.component';
 import { CompetitionsComponent } from './component/competitions/competitions.component';
 
 import { HttpClientModule } from '@angular/common/http';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MembersComponent } from './component/members/members.component';
 import { RankingsComponent } from './component/rankings/rankings.component';
+import { MatPaginatorModule } from '@angular/material/paginator';
+
+
+
 
 
 @NgModule({
@@ -29,6 +33,8 @@ import { RankingsComponent } from './component/rankings/rankings.component';
     ReactiveFormsModule,
     ToastrModule.forRoot(),
     BrowserAnimationsModule,
+    MatPaginatorModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

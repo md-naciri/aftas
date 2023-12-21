@@ -7,6 +7,8 @@ import com.example.aftas.handler.ResponseHandler;
 import com.example.aftas.service.CompetitionService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,6 +32,17 @@ public class CompetitionController {
         return ResponseHandler.ok(competitionResponseVM, "Competition Found Successfully");
         //return ResponseEntity.ok().body(competitionService.getCompetition(code));
     }
+    @GetMapping("/pagination")
+    public ResponseEntity<?> getCompetitionsPagination(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size){
+        Page<Competition> competitions = competitionService.getCompetitionsPagination(PageRequest.of(page, size));
+        List<CompetitionResponseVM> response = new ArrayList<>();
+
+        for (Competition competition : competitions) {
+            response.add(CompetitionResponseVM.fromCompetition(competition));
+        }
+        return ResponseHandler.ok(response, "Competitions Found Successfully");
+        //return ResponseEntity.ok().body(competitionService.getCompetition(code));
+    }
     @GetMapping
     public ResponseEntity<?> getCompetitions(){
         List<Competition> competitions = competitionService.getCompetitions();
@@ -39,6 +52,21 @@ public class CompetitionController {
             response.add(CompetitionResponseVM.fromCompetition(competition));
         }
         return ResponseHandler.ok(response, "Competitions Found Successfully");
-        //return ResponseEntity.ok().body(competitionService.getCompetition(code));
     }
+    @GetMapping("/filter/{filter}")
+    public ResponseEntity<?> getCompetitionsfilter(@PathVariable("filter") String filterType){
+        List<Competition> competitions;
+        if (!"closed".equals(filterType)){
+            competitions = competitionService.filterCompetitionsInProgress();
+        } else {
+            competitions = competitionService.filterCompetitionsClosed();
+        }
+        List<Competition> competitions1 = competitions;
+        List<CompetitionResponseVM> response = new ArrayList<>();
+        for (Competition competition : competitions) {
+            response.add(CompetitionResponseVM.fromCompetition(competition));
+        }
+        return ResponseHandler.ok(response, "Competitions Found Successfully");
+    }
+
 }

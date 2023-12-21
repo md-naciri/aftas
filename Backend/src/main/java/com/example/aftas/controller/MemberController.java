@@ -17,7 +17,9 @@ import java.util.List;
 @RequestMapping("/aftas/api/v1/member")
 @RequiredArgsConstructor
 public class MemberController {
+
     private final MemberService memberService;
+
     @PostMapping
     public ResponseEntity<?> createMember (@RequestBody @Valid MemberRequestVM memberRequestVM){
         Member member = memberService.createMember(memberRequestVM.toMember());

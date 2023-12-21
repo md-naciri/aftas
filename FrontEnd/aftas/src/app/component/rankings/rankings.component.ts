@@ -6,6 +6,9 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { MemberService } from 'src/app/service/member.service';
 import { RankingService } from 'src/app/service/ranking.service';
+import { CompetitionService } from 'src/app/service/competition.service';
+import { Competition } from 'src/app/entity/competition';
+import { CompetitionResponse } from 'src/app/entity/competition-response';
 
 @Component({
   selector: 'app-rankings',
@@ -13,43 +16,40 @@ import { RankingService } from 'src/app/service/ranking.service';
   styleUrls: ['./rankings.component.css']
 })
 export class RankingsComponent {
-  assignMemberForm: FormGroup;
+  competitions: Competition[]=[];
+  podium: Ranking[]=[];
+  competitionCode: string = "";
   @ViewChild('closeModalButton', { static: false }) closeModalButton: ElementRef | undefined;
   constructor(
-    private ranking: RankingService,
+    private rankingService: RankingService,
     private fb: FormBuilder,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private competitionService : CompetitionService
   ){
-    this.assignMemberForm = this.fb.group({
-    member_number: "",
-    competition_code: ""
+    
+  }
+  ngOnInit(): void{
+    this.getCompetions()
+  }
+  getCompetions(){
+    this.competitionService.getCompetitions().subscribe((competition: CompetitionResponse) => {
+      this.competitions = competition.data
     })
   }
-  assignMemberForCompetition(){
-    if (this.assignMemberForm.valid) {
-      this.ranking.assignMemberForCompetition(this.assignMemberForm.value).subscribe({
-        next: (val: any) => {
-          this.toastr.success('Member assigned successfully for the competition', 'Success', {
-            closeButton: true,
-            timeOut: 3000,
-          });
-          this.closeModalTrigger();
-          //this.getMembers();
-          this.assignMemberForm.reset();
-        },
-        error: (err: any) => {
-          console.log(err);
-            this.toastr.error(err.error.error,"error",{
-              closeButton: true,
-              timeOut: 3000,
-            });
-        }
-      });
-    }
+  getPodium(){    
+    console.log("dekhlat");
+    this.rankingService.getMembersInCompetition(this.competitionCode).subscribe((ranking: RankingResponse) => {
+      this.podium = ranking.data
+    })
+    console.log(this.podium);
+    
   }
-  closeModalTrigger(){
-    if (this.closeModalButton) {
-      this.closeModalButton.nativeElement.click();
-    }
+  saveCompetitionCode(code: string){
+    this.competitionCode = code;
+
+    setTimeout(() => {
+    this.getPodium();
+  }, 500);
   }
+
 }

@@ -5,10 +5,15 @@ import com.example.aftas.handler.OperationException;
 import com.example.aftas.repository.CompetitionRepository;
 import com.example.aftas.service.CompetitionService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -47,8 +52,41 @@ public class CompetitionServiceImp implements CompetitionService {
     }
 
     @Override
+    public Page<Competition> getCompetitionsPagination(Pageable pageable) {
+        return  competitionRepository.findAll(pageable);
+    }
+
+    @Override
     public List<Competition> getCompetitions() {
         return  competitionRepository.findAll();
+    }
+
+    @Override
+    public List<Competition> filterCompetitionsInProgress() {
+        List<Competition> all = competitionRepository.findAll();
+        List<Competition> filterInProgress = new ArrayList<>();
+        for (Competition competition : all) {
+            LocalDateTime competitionEnd = LocalDateTime.of(competition.getDate(), competition.getEndTime());
+            LocalDateTime todayDateTime = LocalDateTime.now();
+            if (todayDateTime.isBefore(competitionEnd)) {
+                filterInProgress.add(competition);
+            }
+        }
+        return filterInProgress;
+    }
+
+    @Override
+    public List<Competition> filterCompetitionsClosed() {
+        List<Competition> all = competitionRepository.findAll();
+        List<Competition> filterClosed = new ArrayList<>();
+        for (Competition competition : all) {
+            LocalDateTime competitionEnd = LocalDateTime.of(competition.getDate(), competition.getStartTime());
+            LocalDateTime todayDateTime = LocalDateTime.now();
+            if (todayDateTime.isAfter(competitionEnd)) {
+                filterClosed.add(competition);
+            }
+        }
+        return filterClosed;
     }
 
 }

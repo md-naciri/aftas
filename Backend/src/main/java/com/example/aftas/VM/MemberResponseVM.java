@@ -28,7 +28,6 @@ public record MemberResponseVM(
                 member.getNationality(),
                 member.getIdentityDocument(),
                 member.getIdentityNumber()
-                //member.getListOfRanking()
         );
     }
     public static List<MemberResponseVM> fromListOfMembers(List<Member> members){

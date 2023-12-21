@@ -15,7 +15,7 @@ export class RankingService {
     return this.http.post(this.BASEURL, data)
   }
 
-  getMembersInCompetition(data: any): Observable<any>{
-    return this.http.post(`${this.BASEURL}/competition/${data}`,{})
+  getMembersInCompetition(code: string): Observable<any>{
+    return this.http.get(`${this.BASEURL}/competition/${code}`)
   }
 }

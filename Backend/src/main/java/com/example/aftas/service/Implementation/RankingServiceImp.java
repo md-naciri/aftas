@@ -72,21 +72,6 @@ public class RankingServiceImp implements RankingService {
         ranking.setScore(points + ranking.getScore());
         return rankingRepository.save(ranking);
     }
-    /*public Ranking calculateScore(Fish fish, Ranking ranking, Member member, Competition competition) {
-        Integer points = fish.getLevel().getPoints();
-        return rankingRepository.save(
-                Ranking.builder()
-                        .id(RankId.builder()
-                                .member_number(member.getNumber())
-                                .competition_code(competition.getCode())
-                                .build())
-                        .member(member)
-                        .competition(competition)
-                        .raank(0)
-                        .score(ranking.getScore() + points)
-                        .build()
-        );
-    }*/
 
     @Override
     public List<Ranking> listScores(String codeCompetition) {
@@ -94,7 +79,7 @@ public class RankingServiceImp implements RankingService {
         List<Ranking> rankingList = rankingRepository.findAllByCompetition_CodeOrderByScoreDesc(codeCompetition);
         if(rankingList == null) throw new OperationException("No hunt inserted yet");
         int[] index = {0};
-        List<Ranking> updatedList = rankingList.stream().map(ranking ->{
+        List<Ranking> updatedList = rankingList.stream().limit(3).map(ranking ->{
             ranking.setRaank(++index[0]);
             return ranking;
                 }
