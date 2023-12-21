@@ -13,10 +13,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MembersComponent } from './component/members/members.component';
 import { RankingsComponent } from './component/rankings/rankings.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
-
-
-
-
+import { HomeComponent } from './component/home/home.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +21,8 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     NavbarComponent,
     CompetitionsComponent,
     MembersComponent,
-    RankingsComponent
+    RankingsComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
@@ -39,4 +37,4 @@ import { MatPaginatorModule } from '@angular/material/paginator';
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}

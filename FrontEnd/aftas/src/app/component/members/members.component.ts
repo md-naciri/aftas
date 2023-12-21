@@ -9,6 +9,7 @@ import { RankingService } from 'src/app/service/ranking.service';
 import { CompetitionService } from 'src/app/service/competition.service';
 import { Competition } from 'src/app/entity/competition';
 import { CompetitionResponse } from 'src/app/entity/competition-response';
+import { initFlowbite } from 'flowbite';
 
 
 @Component({
@@ -22,6 +23,7 @@ export class MembersComponent {
   addMemberForm: FormGroup;
   memberNumber: number = 0;
   competitionsFromOneDayNow: Competition[]=[];
+  search: string = ""
   
   @ViewChild('closeModalButton', { static: false }) closeModalButton: ElementRef | undefined;
   @ViewChild('closeModalButton2', { static: false }) closeModalButton2: ElementRef | undefined;
@@ -50,11 +52,21 @@ export class MembersComponent {
   ngOnInit(): void{
     this.getMembers();
     this.getCompetionsAfterToday();
+    initFlowbite();
   }
   getMembers(){
+  
     this.memberService.getMembers().subscribe(
       (member: MemberResponse) => {this.members = member.data}
     )
+  }
+  searchMember(){
+    
+    this.memberService.searchForMember(this.search).subscribe((member: MemberResponse)=>{
+      this.members = member.data
+    })
+    console.log(this.search);
+    
   }
   getCompetionsAfterToday(){
     this.competitionService.getCompetitions().subscribe((competition: CompetitionResponse) => {

@@ -3,6 +3,15 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@1,300&family=Lato:wght@300;400&family=Open+Sans:wght@300;400&family=Roboto+Slab&display=swap');
+
+
+*{
+  font-family: 'Josefin Sans', sans-serif;
+font-family: 'Lato', sans-serif;
+font-family: 'Open Sans', sans-serif;
+font-family: 'Roboto Slab', serif;
+}
 /* position */
 .toast-center-center {
     top: 50%;

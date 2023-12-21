@@ -15,4 +15,7 @@ export class MemberService {
   createMember(data: any): Observable<any>{
     return this.http.post(this.BASEURL, data)
   }
+  searchForMember(search: string): Observable<any>{
+    return this.http.get(this.BASEURL+"/search/"+search)
+  }
 }
