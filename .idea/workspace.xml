@@ -5,7 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="63e9e14d-d6f0-4d63-b136-dbbc82abb017" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/example/aftas/service/CompetitionService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/aftas/service/CompetitionService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,6 +28,9 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 6
+}</component>
   <component name="ProjectId" id="2ZJz2tEeK65mBqtQW045wAtGmul" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -43,6 +46,7 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -75,6 +79,9 @@
       <workItem from="1702389218118" duration="34615000" />
       <workItem from="1702539837746" duration="46584000" />
       <workItem from="1702727614995" duration="7008000" />
+      <workItem from="1703683339312" duration="33000" />
+      <workItem from="1704826952464" duration="1001000" />
+      <workItem from="1704874773149" duration="1813000" />
     </task>
     <servers />
   </component>
