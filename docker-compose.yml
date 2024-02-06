@@ -1,0 +1,37 @@
+version: '3'
+services:
+  mysql:
+    image: mysql:latest
+    environment:
+      MYSQL_DATABASE: aftas
+      MYSQL_ROOT_PASSWORD: rootpassword  # Set a secure root password
+      MYSQL_USER:               # Create a new user
+      MYSQL_PASSWORD: userpassword       # Set password for the new user
+    ports:
+      - "3306:3306"
+    expose:
+      - '3306'
+
+  aftas-app:
+    build:
+      context: ./Backend
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysql
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/aftas?createDatabaseIfNotExist=true
+      SPRING_DATASOURCE_USERNAME: aftasuser
+      SPRING_DATASOURCE_PASSWORD: userpassword
+
+  aftas-front:
+    build:
+      context: ./FrontEnd
+      dockerfile: Dockerfile
+    ports:
+      - "4200:80"
+    depends_on:
+      - aftas-app
+
+#    command: npm start
