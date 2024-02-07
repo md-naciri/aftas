@@ -8,6 +8,7 @@ import com.example.aftas.service.MemberService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -49,6 +50,7 @@ public class MemberController {
     }
 
     @GetMapping
+    //@PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
     public ResponseEntity<?> getMembers(){
         List<Member> members = memberService.getMembers();
         List<MemberResponseVM> response = new ArrayList<>();
