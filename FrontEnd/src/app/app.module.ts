@@ -14,6 +14,8 @@ import { MembersComponent } from './component/members/members.component';
 import { RankingsComponent } from './component/rankings/rankings.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { HomeComponent } from './component/home/home.component';
+import { AuthComponent } from './component/auth/auth.component';
+import { LoginComponent } from './component/login/login.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +24,9 @@ import { HomeComponent } from './component/home/home.component';
     CompetitionsComponent,
     MembersComponent,
     RankingsComponent,
-    HomeComponent
+    HomeComponent,
+    AuthComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
